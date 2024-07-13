@@ -1,0 +1,33 @@
+lua
+-- Kick Griefers Script
+
+-- Function to kick griefers
+local function kickGriefers(player)
+    -- List of griefing activities
+    local griefingActivities = {"BreakingStuff", "Spamming", "Exploiting"}
+
+    -- Warn and kick the player upon detecting griefing activity
+    for _, activity in ipairs(griefingActivities) do
+        if player:FindFirstChild(activity) then
+            -- Kick the player
+            player:Kick("You have been kicked for griefing. Play fair.")
+            -- Log the kick message
+            print("Player " .. player.Name .. " has been kicked for: " .. activity)
+            break
+        end
+    end
+end
+
+-- Monitor new players
+game.Players.PlayerAdded:Connect(function(player)
+    -- Periodically check the players
+    while player do
+        kickGriefers(player)
+        wait(5) -- Check every 5 seconds
+    end
+end)
+
+-- Check existing players when the script starts
+for _, player in ipairs(game.Players:GetPlayers()) do
+    kickGriefers(player)
+end
